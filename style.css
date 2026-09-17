@@ -1,0 +1,14 @@
+.carte{
+    display: flex   ;
+    background-color: none;
+    border-radius: 20px;
+    box-shadow: 20px 10px 10px gray;
+    height: 300px;
+    width: 200px;
+    margin-top: 10px;
+    align-items: center;
+    text-align: center;
+}
+.carte h2 {
+    margin-top: 100px;
+}
