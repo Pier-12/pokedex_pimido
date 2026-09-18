@@ -6,11 +6,20 @@ main {
     justify-content: center;
 }
 
-.header {
+header {
+    background-color: rgb(255, 248, 220);
+    color: black;
+    padding: 20px;
+    text-align: center;
 }
+
+header h1 {
+    margin: 0;
+}
+
 .carte{
     display: flex;
-    background-color: rgb(255, 255, 224);
+    background: linear-gradient(135deg,#ffffe0, #ffd700 );
     border-radius: 20px;
     box-shadow: 20px 10px 10px gray;
     height: 300px;
@@ -19,6 +28,8 @@ main {
     align-items: center;
     text-align: center;
     justify-content: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    
 }
 .carte h2 {
     margin-top: 100px;
@@ -27,4 +38,9 @@ main {
     position: absolute;
     margin-bottom: 100px;
     width: 200px;
+}
+
+.carte:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 25px 15px 15px gray;
 }

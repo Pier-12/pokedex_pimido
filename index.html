@@ -6,11 +6,37 @@
     <title>Pokedex</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<header>
-    <h1>Bienvenue dans la page de Pokédex</h1>
-</header>
 <body>
+    <header>
+        <h1>Bienvenue dans la page de Pokédex</h1>
+    </header>
+
     <input type="text" id="recherche" placeholder="Recherche un pokémon">
+
+    <section id="pokémon-filtre">
+        <div id="bouton-filtre">
+            <button data-filtre="Tous">Tous</button>
+            <button data-filtre="Normal">Normal</button>
+            <button data-filtre="Feu">Feu</button>
+            <button data-filtre="Eau">Eau</button>
+            <button data-filtre="Plante">Plante</button>
+            <button data-filtre="Electrik">Electrik</button>
+            <button data-filtre="Glace">Glace</button>
+            <button data-filtre="Combat">Combat</button>
+            <button data-filtre="Poison">Poison</button>
+            <button data-filtre="Sol">Sol</button>
+            <button data-filtre="Vol">Vol</button>
+            <button data-filtre="Psy">Psy</button>
+            <button data-filtre="Insecte">Insecte</button>
+            <button data-filtre="Roche">Roche</button>
+            <button data-filtre="Spectre">Spectre</button>
+            <button data-filtre="Dragon">Dragon</button>
+        </div>
+    </section>
+
+    <main id="pokemon-list"></main>
+
+
     <script src="main.js"></script>
 </body>
 </html>
