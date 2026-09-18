@@ -6,9 +6,12 @@ main {
     justify-content: center;
 }
 
+.recherche {
+    background-color: aqua;
+}
 .carte{
     display: flex;
-    background-color: rgb(255, 0, 0);
+    background-color: rgb(255, 255, 224);
     border-radius: 20px;
     box-shadow: 20px 10px 10px gray;
     height: 300px;
