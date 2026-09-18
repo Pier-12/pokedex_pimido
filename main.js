@@ -20,9 +20,16 @@ const getData = async () => {
     // On prépare une chaine de caractère vide
     let content = "";
     // On parcours tout ce que l'API a retourné
-    data.results.forEach(element => {
-      content += `<div class="carte"><h2>${element.name}</h2></div>`
-    });
+data.results.forEach(element => {
+  const id = element.url.split("/").filter(Boolean).pop()
+  const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+  content += `
+    <div class ="carte">
+      <img src="${imageUrl}" alt="${element.name}">
+      <h2>${element.name}</h2>
+    </div>
+  `
+})
     // On crée puis affiche le contenu retourné par l'API
     const elements = document.createElement('main')
     elements.innerHTML = content

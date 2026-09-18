@@ -20,5 +20,9 @@ main {
 }
 .carte h2 {
     margin-top: 100px;
-
+}
+.carte img {
+    position: absolute;
+    margin-bottom: 100px;
+    width: 200px;
 }
