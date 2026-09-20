@@ -1,9 +1,62 @@
 let pokemons = [];
+
 const displayError = (message) => {
   const error = document.createElement("p");
   error.classList.add("red");
   error.textContent = message;
   document.body.appendChild(error);
+};
+
+// récupère les favoris stockés en localStorage
+const getFavoris = () => {
+  return JSON.parse(localStorage.getItem("favoris")) || [];
+};
+
+// vérifie si un pokémon est déjà en favori
+const estFavori = (nom) => {
+  return getFavoris().some((favori) => favori.name === nom);
+};
+
+// ajoute ou retire un pokémon des favoris et sauvegarde
+const toggleFavori = (pokemon) => {
+  let favoris = getFavoris();
+  if (estFavori(pokemon.name)) {
+    favoris = favoris.filter((favori) => favori.name !== pokemon.name);
+  } else {
+    favoris.push(pokemon);
+  }
+  localStorage.setItem("favoris", JSON.stringify(favoris));
+  return estFavori(pokemon.name);
+};
+
+// crée une carte pour un pokémon donné et gère le clic sur la pokeball
+const creerCarte = (pokemon, favorisPage) => {
+  const template = document.getElementById("carte-pokemon");
+  const clone = template.content.cloneNode(true);
+
+  const img = clone.querySelector("img");
+  img.src = pokemon.imageUrl;
+  img.alt = pokemon.name;
+  clone.querySelector("h2").textContent = pokemon.name;
+
+  const imgPoke = clone.querySelector(".poke");
+  imgPoke.src = estFavori(pokemon.name)
+    ? "../Images/pokeball2.png"
+    : "../Images/pokeball.png";
+
+  imgPoke.addEventListener("click", () => {
+    const ajoute = toggleFavori(pokemon);
+    if (favorisPage) {
+      // sur la page favoris, on retire directement la carte de l'affichage
+      afficherFavoris();
+    } else {
+      imgPoke.src = ajoute
+        ? "../Images/pokeball2.png"
+        : "../Images/pokeball.png";
+    }
+  });
+
+  return clone;
 };
 
 const afficherPokemon = (liste) => {
@@ -14,22 +67,37 @@ const afficherPokemon = (liste) => {
   }
   elements.innerHTML = "";
 
-  const template = document.getElementById("carte-pokemon");
-
   liste.forEach((element) => {
     const id = element.url.split("/").filter(Boolean).pop();
     const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-    const clone = template.content.cloneNode(true);
-    const img = clone.querySelector("img");
-    img.src = imageUrl;
-    img.alt = element.name;
-    clone.querySelector("h2").textContent = element.name;
-
-    elements.appendChild(clone);
+    const pokemon = { name: element.name, id, imageUrl };
+    elements.appendChild(creerCarte(pokemon, false));
   });
 };
 
-// Création d'une fonction qui appel l'API
+// affiche uniquement les pokémon stockés en favoris
+const afficherFavoris = () => {
+  let elements = document.querySelector("main");
+  if (!elements) {
+    elements = document.createElement("main");
+    document.body.appendChild(elements);
+  }
+  elements.innerHTML = "";
+
+  const favoris = getFavoris();
+
+  if (favoris.length === 0) {
+    const message = document.createElement("p");
+    message.textContent = "Tu n'as pas encore de favoris.";
+    elements.appendChild(message);
+    return;
+  }
+
+  favoris.forEach((pokemon) => {
+    elements.appendChild(creerCarte(pokemon, true));
+  });
+};
+
 const getData = async () => {
   const response = await fetch(
     "https://pokeapi.co/api/v2/pokemon?limit=151",
@@ -57,4 +125,9 @@ const getData = async () => {
   }
 };
 
-getData();
+// lance le bon affichage selon la page
+if (document.getElementById("recherche")) {
+  getData();
+} else {
+  afficherFavoris();
+}
