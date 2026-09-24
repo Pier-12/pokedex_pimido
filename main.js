@@ -1,43 +1,116 @@
-const displayError = (message) => {
-  const error = document.createElement('p')
-  error.classList.add('red')
-  error.textContent = message
-  document.body.appendChild(error)
-}
- 
-let allpokemon=[];
+let allpokemon = [];
 
-// Création d'une fonction qui appel l'API
+let filtreActif = "Tous";
+let texteRecherche = "";
+
+const displayError = (message) => {
+  const error = document.createElement("p");
+  error.classList.add("red");
+  error.textContent = message;
+  document.body.appendChild(error);
+};
+
+const getFavoris = () => {
+  return JSON.parse(localStorage.getItem("favoris")) || [];
+};
+
+const estFavori = (nom) => {
+  return getFavoris().some((favori) => favori.name === nom);
+};
+
+const toggleFavori = (pokemon) => {
+  let favoris = getFavoris();
+  if (estFavori(pokemon.name)) {
+    favoris = favoris.filter((favori) => favori.name !== pokemon.name);
+  } else {
+    favoris.push(pokemon);
+  }
+  localStorage.setItem("favoris", JSON.stringify(favoris));
+  return estFavori(pokemon.name);
+};
+
+const creerCarte = (pokemon, favorisPage) => {
+  const template = document.getElementById("carte-pokemon");
+  const clone = template.content.cloneNode(true);
+
+  clone.querySelector(".carte").dataset.id = pokemon.id;
+
+  const img = clone.querySelector("img");
+  img.src = pokemon.imageUrl;
+  img.alt = pokemon.name;
+  clone.querySelector("h2").textContent = pokemon.name;
+
+  const badge = clone.querySelector(".type");
+  if (pokemon.type) {
+    badge.textContent = pokemon.type;
+    badge.classList.add(`type-${pokemon.type}`);
+  } else {
+    badge.remove();
+  }
+
+  const imgPoke = clone.querySelector(".poke");
+  imgPoke.src = estFavori(pokemon.name) ? "pokeball2.png" : "pokeball.png";
+
+  imgPoke.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const ajoute = toggleFavori(pokemon);
+    if (favorisPage) {
+      afficherFavoris();
+    } else {
+      imgPoke.src = ajoute ? "pokeball2.png" : "pokeball.png";
+    }
+  });
+
+  return clone;
+};
+
+const afficherFavoris = () => {
+  let elements = document.querySelector("main");
+  if (!elements) {
+    elements = document.createElement("main");
+    document.body.appendChild(elements);
+  }
+  elements.innerHTML = "";
+
+  const favoris = getFavoris();
+
+  if (favoris.length === 0) {
+    const message = document.createElement("p");
+    message.textContent = "Tu n'as pas encore de favoris.";
+    elements.appendChild(message);
+    return;
+  }
+
+  favoris.forEach((pokemon) => {
+    elements.appendChild(creerCarte(pokemon, true));
+  });
+};
+
 const getData = async () => {
-  const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
-    .catch(error => {
-      console.error("Error:", error)
-      displayError("Une erreur est survenue")
-    });
- 
-  // Si la réponse est correcte
-  if(response.status < 300){
-    // On récupère le corps de la requête
+  const response = await fetch(
+    "https://pokeapi.co/api/v2/pokemon?limit=151",
+  ).catch((error) => {
+    console.error("Error:", error);
+    displayError("Une erreur est survenue");
+  });
+
+  if (!response) return;
+
+  if (response.status < 300) {
     const data = await response.json();
     
-    for (const element of data.results) {
-      const detailResponse = await fetch(element.url);
-      const detailData = await detailResponse.json();
-      allpokemon.push(detailData);
-    }
+    const details = await Promise.all(
+      data.results.map((element) => fetch(element.url).then((r) => r.json())),
+    );
+    allpokemon.push(...details);
 
     afficherPokemons("Tous");
   }
   else{
-    // Status code >= 300
     displayError("Une erreur est survenue")
   }
 }
- 
-// On lance au chargement de la page l'appel API
-getData()
 
-// Traduction des types de l'api (Français < - > Anglais)
 const TypesPouvoir = {
   "Normal":"normal",
   "Feu":"fire",
@@ -53,11 +126,13 @@ const TypesPouvoir = {
   "Insecte":"bug",
   "Roche":"rock",
   "Spectre":"ghost",
-  "Dragon":"dragon"
+  "Dragon":"dragon",
+  "Fée":"fairy",
+  "Acier":"steel"
 };
 
-//fonction qui filtre allpokemon et affiche les résultats
 const afficherPokemons=(filtre) => {
+  filtreActif = filtre;
   let liste=allpokemon;
 
   if(filtre != "Tous") {
@@ -66,25 +141,19 @@ const afficherPokemons=(filtre) => {
     );
   }
 
-  let content ="";
-  
+  liste = liste.filter(pokemon => pokemon.name.toLowerCase().includes(texteRecherche));
+
+  const conteneur = document.getElementById("pokemon-list");
+  conteneur.innerHTML = "";
+
   liste.forEach(element => {
     const imageUrl =`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${element.id}.png`
-    
+
     const typeAnglais = element.types[0].type.name;
     const typeFrancais = Object.keys(TypesPouvoir).find(type => TypesPouvoir[type] === typeAnglais);
-    content += `
-      <div class="carte" data-id="${element.id}">
-        <div class="fond-image">
-          <img src="${imageUrl}" alt="${element.name}">
-        </div>
-        <h2>${element.name}</h2>
-        <div class="type type-${typeFrancais}">${typeFrancais}</div>
-      </div>
-      `
-  });
 
-  document.getElementById("pokemon-list").innerHTML= content;
+    conteneur.appendChild(creerCarte({ name: element.name, id: element.id, imageUrl, type: typeFrancais }, false));
+  });
 }
 
 const boutons = document.querySelectorAll("#bouton-filtre button");
@@ -139,7 +208,7 @@ const fermerDetails = () => {
     document.getElementById("details-pokemon").classList.add("details-cacher");
 };
 
-document.getElementById("pokemon-list").addEventListener("click", (event) => {
+document.getElementById("pokemon-list")?.addEventListener("click", (event) => {
 
     const carte = event.target.closest(".carte");
 
@@ -150,3 +219,15 @@ document.getElementById("pokemon-list").addEventListener("click", (event) => {
         afficherDetails(idClique);
     }
 });
+
+
+document.getElementById("recherche")?.addEventListener("input", (event) => {
+  texteRecherche = event.target.value.toLowerCase();
+  afficherPokemons(filtreActif);
+});
+
+if (document.getElementById("recherche")) {
+  getData();
+} else {
+  afficherFavoris();
+}

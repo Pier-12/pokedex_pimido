@@ -223,6 +223,14 @@ button[data-filtre="Dragon"], .type-Dragon {
     background-color: #6f35fc;
 }
 
+button[data-filtre="Fée"], .type-Fée {
+    background-color: #d685ad;
+}
+
+button[data-filtre="Acier"], .type-Acier {
+    background-color: #b7b7ce;
+}
+
 
 #details-pokemon {
     position: fixed;
@@ -338,3 +346,37 @@ button[data-filtre="Dragon"], .type-Dragon {
     transform: scale(1.05);
 }
 
+.btnFav {
+  padding: 17px 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: 0;
+  background-color: rgb(255, 255, 224);
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all 0.5s ease;
+}
+
+.btnFav:hover {
+  background-color: rgb(255, 255, 224);
+  color: black;
+  box-shadow: rgb(83 80 88) 0px 7px 29px 0px;
+}
+
+.btnFav:active {
+  background-color: rgb(255, 255, 224);
+  color: black;
+  box-shadow: rgb(83, 80, 88) 0px 0px 0px 0px;
+  transition: 100ms;
+}
+.carte img.poke{
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  height: 50px;
+  width: 50px;
+  margin-bottom: 0;
+  cursor: pointer;
+}
