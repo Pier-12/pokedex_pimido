@@ -7,17 +7,14 @@ const displayError = (message) => {
   document.body.appendChild(error);
 };
 
-// récupère les favoris stockés en localStorage
 const getFavoris = () => {
   return JSON.parse(localStorage.getItem("favoris")) || [];
 };
 
-// vérifie si un pokémon est déjà en favori
 const estFavori = (nom) => {
   return getFavoris().some((favori) => favori.name === nom);
 };
 
-// ajoute ou retire un pokémon des favoris et sauvegarde
 const toggleFavori = (pokemon) => {
   let favoris = getFavoris();
   if (estFavori(pokemon.name)) {
@@ -29,7 +26,6 @@ const toggleFavori = (pokemon) => {
   return estFavori(pokemon.name);
 };
 
-// crée une carte pour un pokémon donné et gère le clic sur la pokeball
 const creerCarte = (pokemon, favorisPage) => {
   const template = document.getElementById("carte-pokemon");
   const clone = template.content.cloneNode(true);
@@ -47,7 +43,6 @@ const creerCarte = (pokemon, favorisPage) => {
   imgPoke.addEventListener("click", () => {
     const ajoute = toggleFavori(pokemon);
     if (favorisPage) {
-      // sur la page favoris, on retire directement la carte de l'affichage
       afficherFavoris();
     } else {
       imgPoke.src = ajoute
@@ -75,7 +70,6 @@ const afficherPokemon = (liste) => {
   });
 };
 
-// affiche uniquement les pokémon stockés en favoris
 const afficherFavoris = () => {
   let elements = document.querySelector("main");
   if (!elements) {
@@ -125,7 +119,6 @@ const getData = async () => {
   }
 };
 
-// lance le bon affichage selon la page
 if (document.getElementById("recherche")) {
   getData();
 } else {
