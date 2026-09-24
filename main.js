@@ -70,21 +70,83 @@ const afficherPokemons=(filtre) => {
   
   liste.forEach(element => {
     const imageUrl =`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${element.id}.png`
+    
+    const typeAnglais = element.types[0].type.name;
+    const typeFrancais = Object.keys(TypesPouvoir).find(type => TypesPouvoir[type] === typeAnglais);
     content += `
-      <div class="carte">
-        <img src="${imageUrl}" alt="${element.name}">
+      <div class="carte" data-id="${element.id}">
+        <div class="fond-image">
+          <img src="${imageUrl}" alt="${element.name}">
+        </div>
         <h2>${element.name}</h2>
+        <div class="type type-${typeFrancais}">${typeFrancais}</div>
       </div>
       `
-  })
+  });
 
   document.getElementById("pokemon-list").innerHTML= content;
 }
 
 const boutons = document.querySelectorAll("#bouton-filtre button");
 boutons.forEach(bouton => {
-  bouton.addEventListener("click", () => {
-    const filtre = bouton.getAttribute("data-filtre");
-    afficherPokemons(filtre);
-  });
+    bouton.addEventListener("click", () => {
+        boutons.forEach(b => b.classList.remove("actif"));
+        bouton.classList.add("actif");
+        const filtre = bouton.getAttribute("data-filtre");
+        afficherPokemons(filtre);
+    });
+});
+
+const afficherDetails = (id) => {
+  const pokemon = allpokemon.find(p => p.id == id);
+  const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`
+
+  const typesTexte = pokemon.types.map(t => t.type.name).join(",");
+  const statsTexte = pokemon.stats.map(s => s.stat.name + " : " + s.base_stat).join("<br>");
+
+  let texte =`
+    <div class="details-contenu">
+
+    <div class="details-image">
+      <img src="${imageUrl}" alt="${pokemon.name}">
+    </div>
+
+    <div class="details-infos">
+      <h2>${pokemon.name}</h2>
+
+      <div class="details-type">
+        ${typesTexte}
+      </div>
+
+        <p><strong>Taille :</strong> ${pokemon.height / 10} m</p>
+        <p><strong>Poids :</strong> ${pokemon.weight / 10} kg</p>
+
+        <h3>Statistique</h3>
+
+        <p class="stats">${statsTexte}</p>
+
+        <button id="fermer-details">Fermer</button>
+      </div>
+    </div>
+  `;
+
+    document.getElementById("details-pokemon").innerHTML = texte;
+    document.getElementById("details-pokemon").classList.remove("details-cacher");
+    document.getElementById("fermer-details").addEventListener("click", fermerDetails);
+};
+
+const fermerDetails = () => {
+    document.getElementById("details-pokemon").classList.add("details-cacher");
+};
+
+document.getElementById("pokemon-list").addEventListener("click", (event) => {
+
+    const carte = event.target.closest(".carte");
+
+    if (carte) {
+
+        const idClique = carte.getAttribute("data-id");
+
+        afficherDetails(idClique);
+    }
 });
