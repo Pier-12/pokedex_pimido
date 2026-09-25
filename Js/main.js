@@ -49,7 +49,7 @@ const creerCarte = (pokemon, favorisPage) => {
   }
 
   const imgPoke = clone.querySelector(".poke");
-  imgPoke.src = estFavori(pokemon.name) ? "pokeball2.png" : "pokeball.png";
+  imgPoke.src = estFavori(pokemon.name) ? "../images/pokeball2.png" : "../images/pokeball.png";
 
   imgPoke.addEventListener("click", (event) => {
     event.stopPropagation();
@@ -57,7 +57,7 @@ const creerCarte = (pokemon, favorisPage) => {
     if (favorisPage) {
       afficherFavoris();
     } else {
-      imgPoke.src = ajoute ? "pokeball2.png" : "pokeball.png";
+      imgPoke.src = ajoute ? "../images/pokeball2.png" : "../images/pokeball.png";
     }
   });
 
