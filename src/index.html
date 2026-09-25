@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+    <header>
+        <div class="titre">
+                <img src="../images/pokeball2.png" alt="pokeball">
+            <div>
+                <h1>POKEDEX</h1>
+                <p>Bienvenue sur la page de Pokedex</p>
+            </div>
+        </div>
+
+        <input type="text" id="recherche" placeholder="Recherche un pokémon">
+
+        <a href="../src/favoris.html"><button class="btnFav">Mes Favoris</button></a>
+
+    </header>
+
+    <section id="pokémon-filtre">
+        <div id="bouton-filtre">
+            <button data-filtre="Tous" class="actif">Tous</button>
+            <button data-filtre="Normal">Normal</button>
+            <button data-filtre="Feu">Feu</button>
+            <button data-filtre="Eau">Eau</button>
+            <button data-filtre="Plante">Plante</button>
+            <button data-filtre="Electrik">Electrik</button>
+            <button data-filtre="Glace">Glace</button>
+            <button data-filtre="Combat">Combat</button>
+            <button data-filtre="Poison">Poison</button>
+            <button data-filtre="Sol">Sol</button>
+            <button data-filtre="Vol">Vol</button>
+            <button data-filtre="Psy">Psy</button>
+            <button data-filtre="Insecte">Insecte</button>
+            <button data-filtre="Roche">Roche</button>
+            <button data-filtre="Spectre">Spectre</button>
+            <button data-filtre="Dragon">Dragon</button>
+            <button data-filtre="Fée">Fée</button>
+            <button data-filtre="Acier">Acier</button>
+        </div>
+    </section>
+
+    <main id="pokemon-list"></main>
+
+    <div id="details-pokemon" class="details-cacher"></div>
+
+    <template id="carte-pokemon">
+        <div class="carte">
+            <div class="fond-image">
+                <img src="" alt="">
+            </div>
+            <h2></h2>
+            <div class="type"></div>
+            <img src="../images/pokeball.png" alt="favori" class="poke">
+        </div>
+    </template>
+
+    <script src="../Js/main.js"></script>
+</body>
+</html>

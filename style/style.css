@@ -1,0 +1,382 @@
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("../images/rayure_bleu_2.png");
+    background-size: 100%;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding: 20px;
+    justify-content: center;
+}
+
+header {
+    width: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #0f172a, #1e3a5f);
+    color: white;
+    padding: 25px;
+    border-bottom: 5px solid #ffd700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.titre {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.titre img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 45px;
+    letter-spacing: 5px;
+}
+
+header p {
+    margin: 5px 0 0;
+    text-align: center;
+    color: #dbeafe;
+    font-size: 17px;
+}
+
+#recherche {
+    width: 350px;
+    padding: 12px 18px;
+    border: 3px solid #ffd700;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+}
+
+#recherche:focus {
+    box-shadow: 0 0 10px #ffd700;
+}
+
+.carte{
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg,#ffffe0, #ffd700 );
+    border-radius: 20px;
+    box-shadow: 20px 10px 10px gray;
+    outline: 2px solid #d4a017;
+    outline-offset: -10px;
+    height: 300px;
+    width: 250px;
+    margin-top: 10px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.carte h2 {
+    margin: 5px 0;
+}
+
+.carte:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 25px 15px 15px gray;
+}
+
+.fond-image {
+    width: 190px;
+    height: 130px;
+    background: linear-gradient(135deg, #888888 ,#eeeeee);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fond-image img {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+}
+
+.type {
+    color: white;
+    padding: 5px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+#bouton-filtre {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px 20px;
+}
+
+#bouton-filtre button {
+    padding: 9px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50px;
+
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+
+    /* Effet glace */
+    backdrop-filter: blur(8px);
+
+    transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+}
+
+#bouton-filtre button:hover {
+    transform: translateY(-2px) scale(1.05);
+    filter: brightness(1.15);
+}
+
+/* Bouton sélectionné */
+#bouton-filtre button.actif {
+    transform: scale(1.18);
+    filter: brightness(1.25);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    border: 2px solid white;
+}
+
+button[data-filtre="Tous"], .type-Tous {
+    background-color: #000000;
+}
+
+button[data-filtre="Normal"], .type-Normal {
+    background-color: #a8a77a;
+}
+
+button[data-filtre="Feu"], .type-Feu {
+    background-color: #ee8130;
+}
+
+button[data-filtre="Eau"], .type-Eau {
+    background-color: #6390f0;
+}
+
+button[data-filtre="Plante"], .type-Plante {
+    background-color: #7ac74c;
+}
+
+button[data-filtre="Electrik"], .type-Electrik {
+    background-color: #f7d02c;
+}
+
+button[data-filtre="Glace"], .type-Glace {
+    background-color: #96d9d6;
+}
+
+button[data-filtre="Combat"], .type-Combat {
+    background-color: #c22e28;
+}
+
+button[data-filtre="Poison"], .type-Poison {
+    background-color: #a33ea1;
+}
+
+button[data-filtre="Sol"], .type-Sol {
+    background-color: #e2bf65;
+}
+
+button[data-filtre="Vol"], .type-Vol {
+    background-color: #a98ff3;
+}
+
+button[data-filtre="Psy"], .type-Psy {
+    background-color: #f95587;
+}
+
+button[data-filtre="Insecte"], .type-Insecte {
+    background-color: #a6b91a;
+}
+
+button[data-filtre="Roche"], .type-Roche {
+    background-color: #b6a136;
+}
+
+button[data-filtre="Spectre"], .type-Spectre {
+    background-color: #735797;
+}
+
+button[data-filtre="Dragon"], .type-Dragon {
+    background-color: #6f35fc;
+}
+
+button[data-filtre="Fée"], .type-Fée {
+    background-color: #d685ad;
+}
+
+button[data-filtre="Acier"], .type-Acier {
+    background-color: #b7b7ce;
+}
+
+
+#details-pokemon {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    min-height: 350px;
+
+    background: repeating-linear-gradient(
+        135deg,
+        #ffffe0 0px,
+        #ffffe0 20px,
+        #fffacd 20px,
+        #fffacd 40px
+    );
+
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px gray;
+    outline: 3px solid #d4a017;
+    z-index: 10;
+}
+
+.details-cacher {
+    display: none;
+}
+
+.details-contenu {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    min-height: 350px;
+}
+
+
+.details-image {
+    width: 230px;
+    height: 230px;
+    background: linear-gradient(135deg, #888888, #eeeeee);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+
+.details-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
+
+
+.details-infos {
+    text-align: left;
+    flex: 1;
+}
+
+
+.details-infos h2 {
+    margin: 0 0 10px 0;
+    font-size: 32px;
+    text-transform: capitalize;
+}
+
+
+.details-type {
+    display: inline-block;
+    background-color: #f7d02c;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+
+.details-infos p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+
+.details-infos h3 {
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+
+.stats {
+    line-height: 1.6;
+}
+
+
+#fermer-details {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #3a3a3a;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+
+#fermer-details:hover {
+    transform: scale(1.05);
+}
+
+.btnFav {
+  padding: 17px 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: 0;
+  background-color: rgb(255, 255, 224);
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all 0.5s ease;
+}
+
+.btnFav:hover {
+  background-color: rgb(255, 255, 224);
+  color: black;
+  box-shadow: rgb(83 80 88) 0px 7px 29px 0px;
+}
+
+.btnFav:active {
+  background-color: rgb(255, 255, 224);
+  color: black;
+  box-shadow: rgb(83, 80, 88) 0px 0px 0px 0px;
+  transition: 100ms;
+}
+.carte img.poke{
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  height: 50px;
+  width: 50px;
+  margin-bottom: 0;
+  cursor: pointer;
+}
